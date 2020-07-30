@@ -15,12 +15,12 @@ class QMapV2 : public QMap<Key, T> {
 	 *	missing
 	 * }
 	 */
-	auto fetch(const Key& key) {
+	auto fetch(const Key& key) const {
 		struct OK {
 			operator bool() const {
 				return present;
 			}
-			T*   value   = nullptr;
+			const T*   value   = nullptr;
 			bool present = false;
 		};
 		auto iter = this->find(key);
@@ -34,15 +34,15 @@ class QMapV2 : public QMap<Key, T> {
 		}
 	}
 
-	void get(const Key& key, T& val) {
+	void get(const Key& key, T& val) const {
 		getReal(key, val);
 	}
 
-	bool get(const Key& key, T& val, const T& def) {
+	bool get(const Key& key, T& val, const T& def) const {
 		return getReal(key, val, &def);
 	}
 
-	bool getReal(const Key& key, T& val, const T* def = nullptr) {
+	bool getReal(const Key& key, T& val, const T* def = nullptr) const {
 		if (auto v = this->fetch(key); v) {
 			val = *v.value;
 			return true;
@@ -56,13 +56,13 @@ class QMapV2 : public QMap<Key, T> {
 		}
 	}
 
-	T get(const Key& key, const T& def) {
+	T get(const Key& key, const T& def) const {
 		T v;
 		getReal(key, v, &def);
 		return v;
 	}
 
-	T get(const Key& key) {
+	T get(const Key& key) const {
 		T v;
 		getReal(key, v);
 		return v;
