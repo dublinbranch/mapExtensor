@@ -18,7 +18,7 @@ class mapV2 : public std::map<K, V> {
 	 */ 
 	[[nodiscard]] auto get(const K& k) const {
 		struct Founded {
-			const V val;
+			const V* val = nullptr;
 			bool    found = false;
 			operator bool() {
 				return found;
@@ -26,9 +26,9 @@ class mapV2 : public std::map<K, V> {
 		};
 
 		if (auto iter = this->find(k); iter != this->end()) {
-			return Founded{iter->second, true};
+			return Founded{&iter->second, true};
 		} else {
-			return Founded{};
+			return Founded();
 		}
 	}
 };
