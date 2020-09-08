@@ -15,11 +15,11 @@ class mapV2 : public std::map<K, V> {
 	} else {
 		cout << "nada\n";
 	}
-	 */ 
+	 */
 	[[nodiscard]] auto get(const K& k) const {
 		struct Founded {
-			const V* val = nullptr;
-			bool    found = false;
+			const V* val   = nullptr;
+			bool     found = false;
 			operator bool() {
 				return found;
 			}
