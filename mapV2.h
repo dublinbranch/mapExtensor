@@ -20,7 +20,7 @@ class mapV2 : public std::map<K, V> {
 		struct Founded {
 			const V* val   = nullptr;
 			bool     found = false;
-			operator bool() {
+			operator bool() const {
 				return found;
 			}
 		};

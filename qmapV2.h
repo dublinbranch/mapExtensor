@@ -15,22 +15,19 @@ class QMapV2 : public QMap<Key, T> {
 	 *	missing
 	 * }
 	 */
-	auto fetch(const Key& key) const {
+	[[nodiscard]] auto fetch(const Key& key) const {
 		struct OK {
 			operator bool() const {
 				return present;
 			}
-			const T*   value   = nullptr;
-			bool present = false;
+			const T* value   = nullptr;
+			bool     present = false;
 		};
 		auto iter = this->find(key);
 		if (iter == this->end()) {
 			return OK();
 		} else {
-			OK o;
-			o.present = true;
-			o.value   = &iter.value();
-			return o;
+			return OK{&iter.value(), true};
 		}
 	}
 
