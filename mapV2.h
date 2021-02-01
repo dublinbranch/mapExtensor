@@ -31,6 +31,10 @@ class mapV2 : public std::map<K, V> {
 			return Founded();
 		}
 	}
+	
+	const V& first() const{
+		return this->begin()->second;
+	}
 };
 
 
