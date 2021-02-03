@@ -31,12 +31,19 @@ class mapV2 : public std::map<K, V> {
 			return Founded();
 		}
 	}
-	
-	const V& first() const{
+
+	[[nodiscard]] const auto& operator[](const K& k) const {
+		if (auto iter = this->find(k); iter != this->end()) {
+			return iter->second;
+		} else {
+			return V();
+		}
+	}
+
+	const V& first() const {
 		return this->begin()->second;
 	}
 };
-
 
 template <typename K, typename V>
 class multiMapV2 : public std::multimap<K, V> {
@@ -68,4 +75,3 @@ class multiMapV2 : public std::multimap<K, V> {
 		}
 	}
 };
-
