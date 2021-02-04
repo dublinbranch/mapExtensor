@@ -39,6 +39,13 @@ class mapV2 : public std::map<K, V> {
 			return V();
 		}
 	}
+	/*
+	 *For obscure reason the compiler elect to use the const version, ignoring the base class NON const one
+	 * so we redefine ...
+	 */
+	[[nodiscard]] auto& operator[](const K& k) {
+		return std::map<K, V>::operator[](k);
+	}
 
 	const V& first() const {
 		return this->begin()->second;
