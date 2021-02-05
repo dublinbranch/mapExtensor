@@ -1,5 +1,7 @@
 #pragma once
 
+#include "QStacker/exceptionv2.h"
+#include "fmt/core.h"
 #include <map>
 
 template <typename K, typename V>
@@ -36,7 +38,7 @@ class mapV2 : public std::map<K, V> {
 		if (auto iter = this->find(k); iter != this->end()) {
 			return iter->second;
 		} else {
-			return V();
+			throw ExceptionV2(fmt::format("key {} not found in {}", k, __PRETTY_FUNCTION__));
 		}
 	}
 	/*
