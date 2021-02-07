@@ -1,6 +1,14 @@
 #pragma once
 
+#include "QStacker/exceptionv2.h"
 #include <QMap>
+
+class MissingKeyEX : public ExceptionV2 {
+      public:
+	MissingKeyEX(const QString& _msg)
+	    : ExceptionV2(_msg, 6) {
+	}
+};
 
 template <class Key, class T>
 class QMapV2 : public QMap<Key, T> {
@@ -48,7 +56,7 @@ class QMapV2 : public QMap<Key, T> {
 				val = *def;
 				return false;
 			} else {
-				throw QString("no key > %1 < and missing default value, what should I do ?").arg(QString(key));
+				throw MissingKeyEX(QString("no key > %1 < and missing default value, what should I do ?").arg(QString(key)));
 			}
 		}
 	}
