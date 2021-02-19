@@ -7,6 +7,7 @@ class MissingKeyEX : public ExceptionV2 {
       public:
 	MissingKeyEX(const QString& _msg)
 	    : ExceptionV2(_msg, 6) {
+		forcePrint = true;
 	}
 };
 
