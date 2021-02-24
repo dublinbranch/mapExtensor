@@ -34,6 +34,22 @@ class hmap : public std::unordered_map<K, V> {
 		}
 	}
 
+	[[nodiscard]] auto getNC(const K& k) {
+		struct Founded {
+			V*   val   = nullptr;
+			bool found = false;
+			operator bool() const {
+				return found;
+			}
+		};
+
+		if (auto iter = this->find(k); iter != this->end()) {
+			return Founded{&iter->second, true};
+		} else {
+			return Founded();
+		}
+	}
+
 	[[nodiscard]] const auto& operator[](const K& k) const {
 		if (auto iter = this->find(k); iter != this->end()) {
 			return iter->second;
