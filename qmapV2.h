@@ -2,6 +2,7 @@
 
 #include "QStacker/exceptionv2.h"
 #include <QMap>
+#include <QDate>
 
 class MissingKeyEX : public ExceptionV2 {
       public:
@@ -57,7 +58,13 @@ class QMapV2 : public QMap<Key, T> {
 				val = *def;
 				return false;
 			} else {
-				throw MissingKeyEX(QString("no key > %1 < and missing default value, what should I do ?").arg(QString(key)));
+				QString stringKey;
+				if constexpr (std::is_same<Key, QDate>::value){
+					stringKey = key.toString("yyyy-MM-dd");
+				} else {
+					stringKey = QString(key);
+				}
+				throw MissingKeyEX(QString("no key > %1 < and missing default value, what should I do ?").arg(stringKey));
 			}
 		}
 	}
