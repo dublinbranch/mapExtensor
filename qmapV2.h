@@ -1,8 +1,9 @@
 #pragma once
 
 #include "QStacker/exceptionv2.h"
-#include <QMap>
+#include "fmt/core.h"
 #include <QDate>
+#include <QMap>
 
 class MissingKeyEX : public ExceptionV2 {
       public:
@@ -59,7 +60,7 @@ class QMapV2 : public QMap<Key, T> {
 				return false;
 			} else {
 				QString stringKey;
-				if constexpr (std::is_same<Key, QDate>::value){
+				if constexpr (std::is_same<Key, QDate>::value) {
 					stringKey = key.toString("yyyy-MM-dd");
 				} else {
 					stringKey = QString(key);
@@ -79,5 +80,20 @@ class QMapV2 : public QMap<Key, T> {
 		T v;
 		getReal(key, v);
 		return v;
+	}
+
+	[[nodiscard]] const auto& operator[](const Key& k) const {
+		if (auto iter = this->find(k); iter != this->end()) {
+			return *iter;
+		} else {
+			throw ExceptionV2(fmt::format("key {} not found in {}", k, __PRETTY_FUNCTION__));
+		}
+	}
+	/*
+	 *For obscure reason the compiler elect to use the const version, ignoring the base class NON const one
+	 * so we redefine ...
+	 */
+	[[nodiscard]] auto& operator[](const Key& k) {
+		return QMap<Key, T>::operator[](k);
 	}
 };
