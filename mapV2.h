@@ -34,6 +34,20 @@ class mapV2 : public std::map<K, V> {
 		}
 	}
 
+	[[nodiscard]] V getDefault(const K& k) const {
+		if (auto v = this->get(k); v) {
+			return v.val;
+		}
+		return V();
+	}
+	
+	[[nodiscard]] V getDefault(const K& k, const V& v) const {
+		if (auto v = this->get(k); v) {
+			return v.val;
+		}
+		return v;
+	}
+
 	[[nodiscard]] const auto& operator[](const K& k) const {
 		if (auto iter = this->find(k); iter != this->end()) {
 			return iter->second;
