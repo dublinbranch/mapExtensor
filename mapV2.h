@@ -40,10 +40,10 @@ class mapV2 : public std::map<K, V> {
 		}
 		return V();
 	}
-	
+
 	[[nodiscard]] V getDefault(const K& k, const V& v) const {
-		if (auto v = this->get(k); v) {
-			return v.val;
+		if (auto found = this->get(k); found) {
+			return found.val;
 		}
 		return v;
 	}
