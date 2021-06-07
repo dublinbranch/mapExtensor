@@ -1,6 +1,7 @@
 #ifndef INDEXEDVECTOR_H
 #define INDEXEDVECTOR_H
 #include <map>
+#include <stdint.h>
 
 template <class T>
 concept isIterable = requires(const T& t) {
@@ -9,13 +10,21 @@ concept isIterable = requires(const T& t) {
 };
 
 template <class T>
+concept isIndexedVector = requires(const T& t) {
+	t.isIndexedVector;
+};
+
+template <class T>
 class indexedVector {
-	using innerMap = std::multimap<int, T>;
+	using innerMap = std::multimap<int64_t, T>;
 
       private:
 	innerMap content;
 
       public:
+	innerMap& get() {
+		return content;
+	}
 	void push_back(const T& r) {
 		constexpr bool hasRty = requires() {
 			r.rty;
@@ -65,16 +74,16 @@ class indexedVector {
 		Iterator(pointer ptr)
 		    : m_ptr(ptr) {
 		}
+
+		int64_t key() const {
+			return m_ptr->first;
+		}
 		reference operator*() const {
 			return m_ptr->second;
 		}
-		//we hide the indexing part
-		T& operator->() const {
-			return m_ptr->second;
-		}
-		//when shared ptr are used looks like the two -> are merged ?
-		T& second() const {
-			return m_ptr->second;
+		//we hide the indexing part, also this is very nice to be used for shared ptr a single -> dereferences both!
+		T* operator->() const {
+			return &m_ptr->second;
 		}
 
 		// Prefix increment
@@ -94,9 +103,6 @@ class indexedVector {
 			Iterator tmp = *this;
 			++(*this);
 			return tmp;
-		}
-		Iterator operator+(int count) {
-			return m_ptr + count;
 		}
 
 		friend bool operator==(const Iterator& a, const Iterator& b) {
@@ -118,6 +124,20 @@ class indexedVector {
 		return content.empty();
 	}
 
+	//this is just a convenience function to access the inner shared ptr from an iterator
+	//of course this need to be if constexpressed
+	const auto& firstN() const {
+		return content.begin()->second;
+	}
+	const auto& operator[](size_t t) const {
+		return at(t);
+	}
+	const auto& at(size_t t) const {
+		if (t != 0) {
+			assert("not supported! this is just a convenience function");
+		}
+		return content.begin()->second;
+	}
 	Iterator begin() {
 		return Iterator(content.begin());
 	}
@@ -125,11 +145,19 @@ class indexedVector {
 		return Iterator(content.end());
 	}
 	const Iterator begin() const {
+		return cbegin();
+	}
+	const Iterator end() const {
+
+		return end();
+	}
+
+	const Iterator cbegin() const {
 		//not sure what is going on here
 		auto c = content.cbegin();
 		return Iterator(c._M_const_cast());
 	}
-	const Iterator end() const {
+	const Iterator cend() const {
 		//not sure what is going on here
 		return Iterator(content.cend()._M_const_cast());
 	}
