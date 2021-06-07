@@ -148,8 +148,7 @@ class indexedVector {
 		return cbegin();
 	}
 	const Iterator end() const {
-
-		return end();
+		return cend();
 	}
 
 	const Iterator cbegin() const {
