@@ -22,6 +22,9 @@ class indexedVector {
 	innerMap content;
 
       public:
+	const innerMap& get() const {
+		return content;
+	}
 	innerMap& get() {
 		return content;
 	}
@@ -122,6 +125,14 @@ class indexedVector {
 
 	bool empty() const {
 		return content.empty();
+	}
+
+	void clear() {
+		content.clear();
+	}
+
+	size_t size() const {
+		return content.size();
 	}
 
 	//this is just a convenience function to access the inner shared ptr from an iterator
