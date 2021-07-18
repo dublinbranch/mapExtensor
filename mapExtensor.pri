@@ -5,6 +5,7 @@ HEADERS += \
 	$$PWD/indexedvector.h \
 	$$PWD/mapV2.h \
 	$$PWD/qmapV2.h  \
+	$$PWD/valueMitWarning.h \
 	$$PWD/vectorV2.h
 
 DISTFILES += /
