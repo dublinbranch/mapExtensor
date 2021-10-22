@@ -43,7 +43,7 @@ class mapV2 : public std::map<K, V> {
 
 	[[nodiscard]] V getDefault(const K& k, const V& v) const {
 		if (auto found = this->get(k); found) {
-			return found.val;
+			return *(found.val);
 		}
 		return v;
 	}
