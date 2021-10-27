@@ -13,17 +13,17 @@ class mapV2 : public std::map<K, V> {
 	bla.insert({5, "ciao"});
 
 	if (auto f = bla.get(5)) {
-		cout << f.val << "\n";
+	        cout << f.val << "\n";
 	} else {
-		cout << "nada\n";
+	        cout << "nada\n";
 	}
 	 */
 	[[nodiscard]] auto get(const K& k) const {
 		struct Founded {
 			const V* val   = nullptr;
 			bool     found = false;
-			operator bool() const {
-				return found;
+			         operator bool() const {
+                                return found;
 			}
 		};
 
@@ -36,7 +36,7 @@ class mapV2 : public std::map<K, V> {
 
 	[[nodiscard]] V getDefault(const K& k) const {
 		if (auto v = this->get(k); v) {
-			return v.val;
+			return *(v.val);
 		}
 		return V();
 	}
@@ -77,17 +77,17 @@ class multiMapV2 : public std::multimap<K, V> {
 	bla.insert({5, "ciao"});
 
 	if (auto f = bla.get(5)) {
-		cout << f.val << "\n";
+	        cout << f.val << "\n";
 	} else {
-		cout << "nada\n";
+	        cout << "nada\n";
 	}
 	 */
 	[[nodiscard]] auto get(const K& k) const {
 		struct Founded {
 			const V* val   = nullptr;
 			bool     found = false;
-			operator bool() const {
-				return found;
+			         operator bool() const {
+                                return found;
 			}
 		};
 
