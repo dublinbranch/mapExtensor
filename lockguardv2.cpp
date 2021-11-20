@@ -4,7 +4,17 @@
 
 #define QSL(str) QStringLiteral(str)
 
-LockGuardV2::LockGuardV2() {
+LockGuardV2::LockGuardV2(std::mutex *newMutex, bool lockNow) {
+	mutex = newMutex;
+	if (lockNow) {
+		lock();
+	}
+}
+
+LockGuardV2::~LockGuardV2() {
+	if (didWeLockedIt) {
+		mutex->unlock();
+	}
 }
 
 void LockGuardV2::setMutex(std::mutex* newMutex) {
@@ -28,4 +38,13 @@ bool LockGuardV2::tryLock() {
 		return true;
 	}
 	return false;
+}
+
+void LockGuardV2::unlock() {
+	if (didWeLockedIt) {
+		mutex->unlock();
+		didWeLockedIt = false;
+	} else {
+		throw ExceptionV2(QSL("You can not UNlock a NON locked mutex..."));
+	}
 }

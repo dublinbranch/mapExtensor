@@ -6,22 +6,14 @@
 
 class LockGuardV2 {
       public:
-	LockGuardV2();
-	LockGuardV2(std::mutex* newMutex, bool lockNow = true) {
-		mutex = newMutex;
-		if (lockNow) {
-			lock();
-		}
-	}
-	~LockGuardV2() {
-		if (didWeLockedIt) {
-			mutex->unlock();
-		}
-	}
+	LockGuardV2() = default;
+	LockGuardV2(std::mutex* newMutex, bool lockNow = true);
+	~LockGuardV2();
 
 	void setMutex(std::mutex* newMutex);
 	void lock();
 	bool tryLock();
+	void unlock();
 
       private:
 	std::mutex* mutex = nullptr;
