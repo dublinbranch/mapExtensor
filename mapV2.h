@@ -4,8 +4,8 @@
 #include "fmt/core.h"
 #include <map>
 
-template <typename K, typename V>
-class mapV2 : public std::map<K, V> {
+template <typename K, typename V, typename _Compare = std::less<K>>
+class mapV2 : public std::map<K, V, _Compare> {
       public:
 	/*
 	 * Use like
