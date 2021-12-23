@@ -4,8 +4,8 @@
 #include "fmt/core.h"
 #include <map>
 
-template <typename K, typename V>
-class hmap : public std::unordered_map<K, V> {
+template <typename K, typename V, typename _Hash = std::hash<K>>
+class hmap : public std::unordered_map<K, V, _Hash> {
       public:
 	/*
 	 * Use like
@@ -13,17 +13,17 @@ class hmap : public std::unordered_map<K, V> {
 	bla.insert({5, "ciao"});
 
 	if (auto f = bla.get(5)) {
-		cout << f.val << "\n";
+	        cout << f.val << "\n";
 	} else {
-		cout << "nada\n";
+	        cout << "nada\n";
 	}
 	 */
 	[[nodiscard]] auto get(const K& k) const {
 		struct Founded {
 			const V* val   = nullptr;
 			bool     found = false;
-			operator bool() const {
-				return found;
+			         operator bool() const {
+                                return found;
 			}
 		};
 
@@ -38,8 +38,8 @@ class hmap : public std::unordered_map<K, V> {
 		struct Founded {
 			V*   val   = nullptr;
 			bool found = false;
-			operator bool() const {
-				return found;
+			     operator bool() const {
+                                return found;
 			}
 		};
 
