@@ -7,6 +7,21 @@
 template <typename K, typename V, typename _Compare = std::less<K>>
 class mapV2 : public std::map<K, V, _Compare> {
       public:
+	struct Founded {
+		const V* val   = nullptr;
+		bool     found = false;
+		explicit operator bool() const {
+			return found;
+		}
+	};
+	struct Founded2 {
+		const V  val   = nullptr;
+		bool     found = false;
+		explicit operator bool() const {
+			return found;
+		}
+	};
+
 	/*
 	 * Use like
 	map2<int, string> bla;
@@ -19,19 +34,19 @@ class mapV2 : public std::map<K, V, _Compare> {
 	}
 	 */
 	[[nodiscard]] auto get(const K& k) const {
-		struct Founded {
-			const V* val   = nullptr;
-			bool     found = false;
-			         operator bool() const {
-                                return found;
-			}
-		};
-
 		if (auto iter = this->find(k); iter != this->end()) {
 			return Founded{&iter->second, true};
-		} else {
-			return Founded();
 		}
+		return Founded();
+	}
+
+	[[nodiscard]] auto take(const K& k) {
+		if (auto iter = this->find(k); iter != this->end()) {
+			Founded2 f{iter->second, true};
+			this->erase(iter);
+			return f;
+		}
+		return Founded2();
 	}
 
 	[[nodiscard]] V getDefault(const K& k) const {
