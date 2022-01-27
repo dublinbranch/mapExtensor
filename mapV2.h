@@ -63,6 +63,12 @@ class mapV2 : public std::map<K, V, _Compare> {
 		return v;
 	}
 
+	void getOptional(const K& key, V& dest){
+		if (auto found = get(key); found) {
+			dest = *found.val;
+		}
+	}
+
 	[[nodiscard]] const auto& operator[](const K& k) const {
 		if (auto iter = this->find(k); iter != this->end()) {
 			return iter->second;
