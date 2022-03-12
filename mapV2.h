@@ -1,7 +1,7 @@
 #pragma once
 
 #include "QStacker/exceptionv2.h"
-#include "fmt/core.h"
+#include "fmt/includeMe.h"
 #include <map>
 
 template <typename K, typename V, typename _Compare = std::less<K>>

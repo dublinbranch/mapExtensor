@@ -16,4 +16,5 @@ DISTFILES += /
 SOURCES += \
     $$PWD/indexedvector.cpp \
 	$$PWD/lockguardv2.cpp \
+    $$PWD/mapV2.cpp \
     $$PWD/rwguard.cpp
