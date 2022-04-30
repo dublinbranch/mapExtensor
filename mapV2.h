@@ -63,14 +63,14 @@ class mapV2 : public std::map<K, V, _Compare> {
 		return v;
 	}
 
-	void getOptional(const K& key, V& dest){
+	void getOptional(const K& key, V& dest) {
 		if (auto found = get(key); found) {
 			dest = *found.val;
 		}
 	}
 
-	template<class T>
-	void getOptional(const K& key, T& dest){
+	template <class T>
+	void getOptional(const K& key, T& dest) {
 		if (auto found = get(key); found) {
 			dest = *found.val;
 		}
@@ -115,7 +115,7 @@ class multiMapV2 : public std::multimap<K, V> {
 			const V* val   = nullptr;
 			bool     found = false;
 			         operator bool() const {
-                                return found;
+				         return found;
 			}
 		};
 
