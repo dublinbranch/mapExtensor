@@ -11,9 +11,7 @@ RWGuard::RWGuard(std::shared_mutex* newMutex) {
 }
 
 RWGuard::~RWGuard() {
-	if (shared) {
-		mutex->unlock();
-	}
+	unlock();
 }
 
 void RWGuard::setMutex(std::shared_mutex* newMutex) {
@@ -21,17 +19,15 @@ void RWGuard::setMutex(std::shared_mutex* newMutex) {
 }
 
 void RWGuard::lock() {
-	if (exclusive) {
-		throw ExceptionV2(QSL("Already locked in exclusive mode..."));
-	}
 	mutex->lock();
-	shared = true;
+	exclusive = true;
+}
+
+void RWGuard::lockExclusive() {
+	lock();
 }
 
 void RWGuard::lockShared() {
-	if (shared) {
-		throw ExceptionV2(QSL("Already locked in shared mode..."));
-	}
 	mutex->lock_shared();
 	shared = true;
 }

@@ -13,6 +13,7 @@ class RWGuard {
 
 	void setMutex(std::shared_mutex* newMutex);
 	void lock();
+	void lockExclusive();
 	void lockShared();
 	void unlock();
 
