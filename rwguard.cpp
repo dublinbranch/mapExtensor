@@ -11,7 +11,7 @@ RWGuard::RWGuard(std::shared_mutex* newMutex) {
 }
 
 RWGuard::~RWGuard() {
-	unlock();
+	unlock(false);
 }
 
 void RWGuard::setMutex(std::shared_mutex* newMutex) {
@@ -32,7 +32,7 @@ void RWGuard::lockShared() {
 	shared = true;
 }
 
-void RWGuard::unlock() {
+void RWGuard::unlock(bool warnOnUnlockError) {
 	if (shared) {
 		mutex->unlock_shared();
 		shared = false;
@@ -40,6 +40,8 @@ void RWGuard::unlock() {
 		mutex->unlock();
 		exclusive = false;
 	} else {
-		qCritical() << QSL("You can not UNlock a NON locked mutex...") << QStacker16Light();
+		if (warnOnUnlockError) {
+			qCritical() << QSL("You can not UNlock a NON locked mutex...") << QStacker16Light();
+		}
 	}
 }

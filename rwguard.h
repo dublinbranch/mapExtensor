@@ -15,7 +15,7 @@ class RWGuard {
 	void lock();
 	void lockExclusive();
 	void lockShared();
-	void unlock();
+	void unlock(bool warnOnUnlockError=true);
 
       private:
 	std::shared_mutex* mutex = nullptr;
