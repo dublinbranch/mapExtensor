@@ -8,7 +8,8 @@ HEADERS += \
 	$$PWD/qmapV2.h  \
 	$$PWD/rwguard.h \
 	$$PWD/valueMitWarning.h \
-	$$PWD/vectorV2.h
+	$$PWD/vectorV2.h \
+	$$PWD/joinVector.h
 
 DISTFILES += /
 	$$PWD/README.md
