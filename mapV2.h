@@ -70,17 +70,13 @@ class mapV2 : public std::map<K, V, _Compare> {
 		return v;
 	}
 
-	void getOptional(const K& key, V& dest) {
-		if (auto found = get(key); found) {
-			dest = *found.val;
-		}
-	}
-
 	template <class T>
-	void getOptional(const K& key, T& dest) {
+	bool getOptional(const K& key, T& dest) {
 		if (auto found = get(key); found) {
 			dest = *found.val;
+			return true;
 		}
+		return false;
 	}
 
 	[[nodiscard]] const auto& operator[](const K& k) const {
