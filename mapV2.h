@@ -1,7 +1,11 @@
 #pragma once
 
+//we will INTENTIONALLY NOT INCLUDE
+//#include "rbk/fmtExtra/includeMe.h"
+//as this will include a lot of qt stuff
+
+#include "fmt/core.h"
 #include "QStacker/exceptionv2.h"
-#include "fmt/includeMe.h"
 #include <map>
 
 template <typename K, typename V, typename _Compare = std::less<K>>
@@ -40,6 +44,13 @@ class mapV2 : public std::map<K, V, _Compare> {
 		return Founded();
 	}
 
+	[[nodiscard]] auto rq(const K& k) const {
+		if (auto iter = this->find(k); iter != this->end()) {
+			return iter->second;
+		}
+		throw ExceptionV2(fmt::format("key {} not found in {}", k, __PRETTY_FUNCTION__));
+	}
+
 	[[nodiscard]] auto take(const K& k) {
 		if (auto iter = this->find(k); iter != this->end()) {
 			Founded2 f{iter->second, true};
@@ -63,17 +74,12 @@ class mapV2 : public std::map<K, V, _Compare> {
 		return v;
 	}
 
-	void getOptional(const K& key, V& dest) {
+	bool getOptional(const K& key, V& dest) const {
 		if (auto found = get(key); found) {
 			dest = *found.val;
+			return true;
 		}
-	}
-
-	template <class T>
-	void getOptional(const K& key, T& dest) {
-		if (auto found = get(key); found) {
-			dest = *found.val;
-		}
+		return false;
 	}
 
 	[[nodiscard]] const auto& operator[](const K& k) const {
